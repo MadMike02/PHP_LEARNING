@@ -1,0 +1,24 @@
+{% block swag_exchange_fields_list %}
+    <sw-page class="wk-ebay-template-list">
+        {% block swag_exchange_fields_search_bar %}
+            <!-- <template #search-bar>
+                <sw-search-bar class="ebay-template-search-bar" :initialSearchType="$tc('wk-ebay-template.general.headlineTemplate')"
+                                :initialSearch="term"
+                                @search="onSearch">
+                </sw-search-bar>
+            </template> -->
+        {% endblock %}
+        {% block swag_exchange_fields_header %}
+            <template #smart-bar-header>
+                {% block swag_exchange_fields_header_title %}
+                    <h2>
+                        {% block swag_exchange_fields_header_title_text %}
+                            {{ $tc('sw-settings.index.title') }} <sw-icon name="regular-chevron-right-s" small></sw-icon>
+                            {{ $tc('swag-exchange-fields.list.headerTitle') }}
+                        {% endblock %}
+                    </h2>
+                {% endblock %}
+            </template>
+        {% endblock %}
+   </sw-page>
+{% endblock %}

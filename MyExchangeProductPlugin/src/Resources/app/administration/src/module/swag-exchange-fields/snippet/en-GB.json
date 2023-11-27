@@ -1,0 +1,11 @@
+{
+    "swag-exchange-fields": {
+        "general": {
+            "mainMenuItemGeneral": "My custom module",
+            "descriptionTextModule": "Manage this custom module here"
+        },
+        "list": {
+            "headerTitle": "Exchange Fields List"
+        }
+    }
+}
