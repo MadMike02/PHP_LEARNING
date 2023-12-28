@@ -34,3 +34,85 @@ add `webpack.config.js` at root folder.
 - `npx webpack --config webpack.config.js` --> file name can be different if spilting configuration in multiple files. Default file name is webpack.config.js.
 - or `webpack` -- to generate build file based on webpack.config.js file.
 
+## Asset Management
+
+https://webpack.js.org/loaders/sass-loader/
+
+### Loading CSS
+- `npm install --save-dev style-loader css-loader`  -- loader for webpack
+
+https://www.npmjs.com/package/style-loader
+https://www.npmjs.com/package/css-loader
+
+```
+module: {
+    rules: [
+      {
+        test: /\.css$/i, //regluar expression for searching all css files
+        use: ['style-loader', 'css-loader'], //webpack loader chain
+      },
+    ],
+  },
+```
+
+Module loaders can be chained. `Each loader in the chain applies` transformations to the processed resource. A chain is executed in reverse order. The first loader passes its result (resource with applied transformations) to the next one, and so forth. Finally, webpack expects JavaScript to be returned by the last loader in the chain.
+
+The above order of loaders should be maintained: 'style-loader' comes first and followed by 'css-loader'. If this convention is not followed, webpack is likely to throw errors.
+
+This enables you to `import './style.css'` into the file that depends on that styling. Now, `when that module is run, a <style> tag with the stringified css will be inserted into the <head> of your html file`.
+
+### Loading Images
+
+So now we're pulling in our CSS, but what about our `images like backgrounds and icons`? As of webpack 5, using the `built-in Asset Modules` we can easily incorporate those in our system as well:
+```
+{
+    test: /\.(png|svg|jpg|jpeg|gif)$/i,
+    type: 'asset/resource',
+},
+```
+Now, when you `import MyImage from './my-image.png'`, that image will be processed and added to your output directory and the `MyImage variable will contain the final url` of that image `after processing`. When using `the css-loader`, as shown above, a similar process will occur for `url('./my-image.png') within your CSS`. The loader will recognize this is a local file, and replace the './my-image.png' path with the final path to the image in your output directory. The `html-loader handles <img src="./my-image.png" /> in the same manner.`
+
+### Loading Fonts
+Add files and configuration: 
+
+```
+{
+    test: /\.(woff|woff2|eot|ttf|otf)$/i,
+    type: 'asset/resource',
+},
+```
+
+Importing in css 
+```
+@font-face {
+  font-family: 'MyFont';
+  src: url('./my-font.woff2') format('woff2'),
+    url('./my-font.woff') format('woff');
+  font-weight: 600;
+  font-style: normal;
+}
+
+ .hello {
+   color: red;
+  font-family: 'MyFont';
+ }
+```
+
+### Loading Data
+Another useful asset that can be loaded is `data`, like `JSON files, CSVs, TSVs, and XML`. Support for JSON is actually built-in, similar to NodeJS, meaning `import Data from './data.json'` will work by default. To import CSVs, TSVs, and XML you could `use the csv-loader` and `xml-loader`. Let's handle loading all three:
+```
+{
+        test: /\.(csv|tsv)$/i,
+        use: ['csv-loader'],
+      },
+      {
+        test: /\.xml$/i,
+        use: ['xml-loader'],
+      },
+
+```
+
+Import these files in js
+
+### Custom parser (yaml etc)
+https://webpack.js.org/guides/asset-management/#customize-parser-of-json-modules

@@ -1,0 +1,12 @@
+@font-face {
+    font-family: 'MyFont';
+    src: url('./Angelina-rnlA.otf') format('otf');
+    font-weight: 600;
+    font-style: bold;
+  }
+
+.hello {
+    color: red;
+    background: url('./facebook.svg');
+    font-family: 'MyFont';
+  }
