@@ -116,3 +116,15 @@ Import these files in js
 
 ### Custom parser (yaml etc)
 https://webpack.js.org/guides/asset-management/#customize-parser-of-json-modules
+
+### Output Management
+
+https://webpack.js.org/guides/output-management/
+
+So far we've `manually included all our assets in our index.html` file, but as your application grows and once you start using hashes in filenames and outputting multiple bundles, it will be `difficult to keep managing your index.html` file `manually`. However, a few plugins exist that will make this process much easier to manage.
+
+we are adding files names as static in our dist/index.html file. 
+But what would happen if we changed the name of one of our entry points, or even added a new one? The generated bundles would be renamed on a build, but our index.html file would still reference the old names. Let's fix that with the `HtmlWebpackPlugin`.
+
+- `npm install --save-dev html-webpack-plugin`
+Before we do a build, you should know that the `HtmlWebpackPlugin by default will` generate its `own index.html file`, even though we already have one in the dist/ folder. This means that `it will replace our index.html file` with a newly generated one
