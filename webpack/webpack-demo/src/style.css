@@ -6,7 +6,8 @@
   }
 
 .hello {
-    color: red;
+    color: blue;
     background: url('./facebook.svg');
     font-family: 'MyFont';
+    background-repeat: no-repeat;
   }

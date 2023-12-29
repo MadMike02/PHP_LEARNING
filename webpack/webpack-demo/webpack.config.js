@@ -5,21 +5,31 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
   // entry: './src/index.js',
+  mode: 'development',
   entry: {
     index: './src/index.js',
     print: './src/print.js',
   },
   plugins: [
     new HtmlWebpackPlugin({
-      title: 'Output Management',
+      // title: 'Output Management',
+      title: 'Development',
     }),
   ],
+  devtool: 'inline-source-map',
+  devServer: {
+    static: './dist',
+  },
+  optimization: {
+    runtimeChunk: 'single',
+  },
   output: {
     // filename: 'main.js',
     // filename: 'bundle.js',
     filename: '[name].bundle.js',
     path: path.resolve(__dirname, 'dist'),
     clean: true, // to remove unused files from dist folder
+    publicPath: '/',
   },
   module: {
     rules: [

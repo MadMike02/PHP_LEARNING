@@ -117,7 +117,7 @@ Import these files in js
 ### Custom parser (yaml etc)
 https://webpack.js.org/guides/asset-management/#customize-parser-of-json-modules
 
-### Output Management
+## Output Management
 
 https://webpack.js.org/guides/output-management/
 
@@ -128,3 +128,89 @@ But what would happen if we changed the name of one of our entry points, or even
 
 - `npm install --save-dev html-webpack-plugin`
 Before we do a build, you should know that the `HtmlWebpackPlugin by default will` generate its `own index.html file`, even though we already have one in the dist/ folder. This means that `it will replace our index.html file` with a newly generated one
+
+## Development
+Enable development mode
+```
+ const path = require('path');
+ const HtmlWebpackPlugin = require('html-webpack-plugin');
+
+ module.exports = {
+  mode: 'development',
+   .
+   .
+   .
+   plugins: [
+     new HtmlWebpackPlugin({
+      title: 'Development',
+     }),
+   ],
+  .
+  .
+  .
+ };
+```
+### Using source maps
+When webpack bundles your source code, it can `become difficult to track down errors` and `warnings` to their `original location`. For example, if you `bundle three source files` (a.js, b.js, and c.js) `into one bundle` (bundle.js) and `one of the source files contains an error`, the `stack trace will point to bundle.js`. This isn't always helpful as you probably want to know exactly which source file the error came from.
+
+In order to make it easier to track down errors and warnings, JavaScript offers source maps, which map your compiled code back to your original source code. If an error originates from b.js, the `source map will tell you exactly that`.
+
+There are a lot of different options available when it comes to source maps. Be sure to check them out so you can configure them to your needs.
+
+For this guide, let's use the `inline-source-map` option, which is good for illustrative purposes (though not for production):
+
+```
+module.exports = {
+  ...
+  devtool: 'inline-source-map',
+  ...
+}
+```
+### Using Watch Mode
+You can instruct webpack to "watch" all files within your dependency graph for changes. If one of these files is updated, the code will be recompiled so you don't have to run the full build manually.
+```
+package.json
+
+"scripts": {
+     "test": "echo \"Error: no test specified\" && exit 1",
+    "watch": "webpack --watch",
+     "build": "webpack"
+   },
+```
+
+The only downside is that you have to `refresh your browser in order to see the changes`. It would be much nicer if that would happen automatically as well, so let's try webpack-dev-server which will do exactly that.
+
+### Using webpack-dev-server
+https://webpack.js.org/guides/development/#using-webpack-dev-server
+
+- `npm install --save-dev webpack-dev-server`
+```
+webpack.config.js
+
+...
+devServer: {
+    static: './dist',
+  },
+   optimization: {
+    runtimeChunk: 'single',
+  },
+...
+
+```
+This tells `webpack-dev-server to serve the files from the dist directory on localhost:8080`.
+
+The `optimization.runtimeChunk: 'single'` was added because in this example `we have more than one entrypoint on a single HTML page`. Without this, we could get into trouble described here. Read the Code Splitting chapter for more details.
+
+```
+package.json
+
+"start": "webpack serve --open"
+
+```
+
+### Using webpack-dev-middleware
+`webpack-dev-middleware` is a `wrapper` that will `emit files processed by webpack to a server`. This is `used in webpack-dev-server internally`, however it's` available as a separate package to allow more custom setups if desired`. We'll take a look at an example that combines webpack-dev-middleware with an express server.
+
+work same as watch mode of webpack but we can configure many options by custom server using express js and add it as a middleware with options.
+
+
